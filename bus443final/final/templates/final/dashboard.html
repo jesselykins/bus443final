@@ -1,0 +1,115 @@
+{% extends "final/base.html" %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Final Dashboard</title>
+        <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet", type="text/css", href="{% static 'final/css/style.css' %}">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<!-- Place jQuery and popper js files above bootstrap js file as bootstrap depends on jq=Query and Popper -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script src="https://unpkg.com/feather-icons"></script>
+	</head>
+	<body>
+		<div class="container" id="#forecast">
+				<div class="card-deck">
+					<div class="card" style="width: 18rem;">
+					  <div class="card-body">
+						<h5 class="card-title" style="text-align: center;">Average GPA</h5>
+						<hr class="hr" width="100">
+						<p class="card-text">3.6</p>
+					  </div>
+					 </div>
+				
+					<div class="card" style="width: 18rem;">
+					  <div class="card-body">
+						<h5 class="card-title" style="text-align: center;">Number of Students</h5>
+					<hr class="hr" width="100">
+						<p class="card-text">20</p>
+					  </div>
+					 </div>
+					 
+					 <div class="card" style="width: 18rem;">
+					  <div class="card-body">
+						<h5 class="card-title" style="text-align: center;">Number of Courses</h5>
+						<hr class="hr" width="100">
+						<p class="card-text">30</p>
+					  </div>
+					 </div>
+				</div>
+			</div>			   
+		</div>
+		<div class="card">
+			<div class="section text-center" id="year" style="padding: 40px;">
+				<h3>Students by Year</h3>
+				<canvas id="pie-chart" width="800" height="200"></canvas>
+				<script>
+					var canvas = document.getElementById("pie-chart");
+					var ctx = canvas.getContext('2d');
+
+					// Global Options:
+					 Chart.defaults.global.defaultFontColor = 'black';
+					 Chart.defaults.global.defaultFontSize = 16;
+
+					var data = {
+						labels: ["Senior", "Junior", "Sophmore", "Freshman"],
+						  datasets: [
+							{
+								fill: true,
+								backgroundColor: ['#34e5eb', '#41e0b9', '#f24b35', '#f2ec35'],
+								data: [7,7,6,0],
+
+							}
+						]
+					};
+					var options = {
+					};
+
+					var myBarChart = new Chart(ctx, {
+						type: 'pie',
+						data: data,
+						options: options
+					});
+				</script>
+			</div>
+		</div>
+		<div class="card">
+			<div class="section text-center" id="year" style="padding: 40px;">
+				<h3>GPA by Student</h3>
+				<canvas id="bar-chart" width="800" height="200"></canvas>
+				<script>
+					var data = [{% for student in students %} "{{ student.GPA }}", {% endfor %}];
+					var label = [{% for student in students %} "{{ student.LastName }}", {% endfor %}];
+					new Chart(document.getElementById("bar-chart"), {
+					type: 'bar',
+					data: {
+					  labels: label,	
+					  datasets: [
+						{
+						  label: "GPA",
+						  backgroundColor: ['#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6', '#6dd1d6','#6dd1d6', '#6dd1d6', '#6dd1d6',],
+						  data: data
+						}
+					  ]
+					},
+					options: {
+					  legend: { display: false },
+					  title: {
+						display: false,
+					  }
+					}
+				});
+				</script>
+			</div>
+		</div>
+	</body>
+
+{% endblock %}

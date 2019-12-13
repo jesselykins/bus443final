@@ -1,0 +1,15 @@
+{% extends "final/base.html" %}
+{% block content%}
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet", type="text/css", href="{% static 'final/css/style.css' %}">
+    </head>
+    <body>
+		<a href="{% url 'home' %}">Home</a>
+		<a href="{% url 'student' %}">Students</a>
+		<h1>Hello {{ name }} your age is {{ age }}</h1>
+    </body>
+</html>
+{% endblock %}

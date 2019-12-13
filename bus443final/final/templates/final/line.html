@@ -1,0 +1,62 @@
+{% extends "final/base.html" %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Graduation Rates</title>
+        <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet", type="text/css", href="{% static 'final/css/style.css' %}">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<!-- Place jQuery and popper js files above bootstrap js file as bootstrap depends on jq=Query and Popper -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script src="https://unpkg.com/feather-icons"></script>
+	</head>
+	<body>
+		<div class="card">
+			<div class="section text-center" id="year" style="padding: 40px;">
+				<h3>Graduation Rates by Year</h3>
+				<canvas id="line-chart" width="800" height="450"></canvas>
+				<script>
+					var year4 = [{% for item in grads %} "{{ item.Year4 }}", {% endfor %}];
+					var year5 = [{% for item in grads %} "{{ item.Year5 }}", {% endfor %}];
+					var year6 = [{% for item in grads %} "{{ item.Year6 }}", {% endfor %}];					
+					var label = [{% for item in grads %} "{{ item.GradYear }}", {% endfor %}];
+					new Chart(document.getElementById("line-chart"), {
+					  type: 'line',
+					  data: {
+						labels: label,
+						datasets: [{ 
+							data: year4,
+							label: "4 Year Graduation Rates",
+							borderColor: "#3e95cd",
+							fill: false
+						  }, { 
+							data: year5,
+							label: "5 Year Graduation Rates",
+							borderColor: "#8e5ea2",
+							fill: false
+						  }, { 
+							data: year6,
+							label: "6 Year Graduation Rates",
+							borderColor: "#3cba9f",
+							fill: false
+						  },
+						]
+					  },
+					  options: {
+						
+					  }
+					});
+				</script>
+			</div>
+		</div>
+	</body>
+
+{% endblock %}

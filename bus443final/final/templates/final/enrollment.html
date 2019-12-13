@@ -1,0 +1,99 @@
+{% extends "final/base.html" %}
+{% block content %}
+
+<div style="margin-left: 35px;">
+	<select style="min-width:100px" id="studentDrop">
+		 {% for student in students %}
+		 <option value="{{ student.LastName }}">{{ student.LastName }}</option>
+		 {% endfor %}
+		</select>
+		
+	<select style="min-width:100px" id="courseDrop1">
+		 {% for course in courses %}
+		 <option value="{{ course.CourseID }}">{{ course.CourseID }}</option>
+		 {% endfor %}
+		</select>
+		
+	<select style="min-width:100px" id="courseDrop2">
+		 {% for course in courses %}
+		 <option value="{{ course.CourseID }}">{{ course.CourseID }}</option>
+		 {% endfor %}
+		</select>
+		
+	<select style="min-width:100px" id="courseDrop3">
+		 {% for course in courses %}
+		 <option value="{{ course.CourseID }}">{{ course.CourseID }}</option>
+		 {% endfor %}
+		</select>
+		
+	<button type="button" id="buttonID" style="margin-left: 15px; width: 125px;"><b>Enroll</b></button>
+</div>
+
+<div class="container" style="margin-top: 20px">
+    
+<table class="table">
+        <thead>
+                <tr>
+                        <th>Last Name</th>
+                        <th>Course 1</th>
+						<th>Course 2</th>
+						<th>Course 3</th>
+                </tr>
+        </thead>
+        <tbody>
+                {% for items in info %}
+                        <tr>
+                                <td>{{ items.LastName }}</td>
+                                <td>{{ items.CourseID1 }}</td>
+								<td>{{ items.CourseID2 }}</td>
+								<td>{{ items.CourseID3 }}</td>
+                        </tr>
+						
+                {% endfor %}
+        </tbody>
+</table>
+</div>
+
+<script>
+    $(document).ready(function(){
+
+         $('#studentDrop').val("{{ request.session.student }}")
+		 $('#courseDrop1').val("{{ request.session.course1 }}")
+         $('#courseDrop2').val("{{ request.session.course2 }}")
+         $('#courseDrop3').val("{{ request.session.course3 }}")
+
+
+	 $('#buttonID').click(function(){
+	     var option = $('#studentDrop').find("option:selected");
+	     var name = option[0].value
+		 var option = $('#courseDrop1').find("option:selected");
+		 var course1 = option[0].value
+		 var option = $('#courseDrop2').find("option:selected");
+		 var course2 = option[0].value
+		 var option = $('#courseDrop3').find("option:selected");
+		 var course3 = option[0].value
+		 
+		if (course1 != course2 && course1 != course3 && course2 != course3)
+		{
+			$.ajax({
+				url: "{% url 'enrollment' %}",
+				data : {
+				 student: name,
+				 course1: course1,
+				 course2: course2,
+				 course3: course3,
+				},
+				success: function(data)
+				{
+					window.location = "{% url 'enrollment' %}";
+				}
+			});
+		}
+		else
+		{}
+		 
+        });
+    });
+</script>
+
+{% endblock %}
